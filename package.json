@@ -1,0 +1,25 @@
+{
+  "name": "bindview-router",
+  "version": "1.0.0",
+  "description": "适用于 bindview@3 的路由组件库",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bronze-ding/bindview-router.git"
+  },
+  "keywords": [
+    "bindview-router",
+    "bindview-router",
+    "bindview-router.js",
+    "bindview-router.js"
+  ],
+  "author": "canlie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bronze-ding/bindview-router/issues"
+  },
+  "homepage": "https://github.com/bronze-ding/bindview-router#readme"
+}
