@@ -4,16 +4,34 @@ const isObj = (to) => Object.prototype.toString.call(to) === '[object Object]'
 
 export default function initSwitch(Bus, Router) {
   return function Switch(props, slot) {
-    let { components, rank, className, defend } = props
+    let { components, rank, className, defend, async = {}, wait } = props
     return {
       name: 'Switch',
       render(h) {
-        const { data: _ } = this
-        return (h('div', { class: className ? className : "" }, [slot ? slot(_.path) : ""]))
+        const { data: _, methods: f } = this
+        return (h('div', { class: className ? className : "" }, [slot ? f.render(slot(_.path)) : ""]))
       },
       data: () => ({
         path: ""
       }),
+      methods: {
+        render(slot) {
+          let state = false
+          if (slot['elementName'] in this._Components) {
+            return slot
+          }
+          if (slot['elementName'] in async) {
+            async[slot['elementName']]().then(module => {
+              this.$appendComponent(slot['elementName'], module.default)
+              state = true
+              this.$mupdate()
+            })
+          } else {
+            state = true
+          }
+          return state ? slot : typeof wait === 'function' ? wait() : ""
+        }
+      },
       life: {
         created() {
           const vm = this
