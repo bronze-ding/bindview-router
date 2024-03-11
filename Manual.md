@@ -40,11 +40,13 @@ new Bindview({
 | `components` | ❎      | 给 `Switch` 注册组件 |
 | `className`  | ❎      | 给 `Switch` 设置类名 |
 | `defend`     | ❎      | `Switch` 路由守卫    |
+| `async`      | ❎      | 注册异步组件         |
+| `wait`       | ❎      | 异步等待时样式       |
 
 `Switch` 是基于动态组件创建的，组件需要一个属性 `rank` 路由级别这是必须的 ，组件使用了函数插槽，函数接收一个参数的是当前路由级别的路由字符串，通过这个字符串配合 `swtich` 语句返回对应的组件，因为是基于动态组件的每个组件都需要一个唯一的 `UUID` 可使用 `Bindview@3` 提供的 `createID` 函数创建
 
 ```jsx
-import { createID } from "../../bindview@3"
+import { createID } from "bindview@3"
 import A from "./Components/A"
 import B from "./Components/B"
 
@@ -74,10 +76,12 @@ export default function App() {
 }
 ```
 
+#### 路由守卫
+
 `Switch` 组件路由守卫, 组件上有一个 `defend` 属性它需要一个函数参数，函数会接到3个参数，为 `oldURL` `newURL` `next` 分别为 旧的路由，新的路由，和 `next` 用来对路由放行和定向重,当使用了路由守卫 `defend` 必须调用 `next`
 
 ```jsx
-import { createID } from "../../bindview@3"
+import { createID } from "bindview@3"
 import A from "./Components/A"
 import B from "./Components/B"
 
@@ -114,6 +118,50 @@ export default function App() {
 }
 ```
 
+#### 异步组件
+
+`异步组件` 它允许开发者在需要时才加载组件，而不是在应用启动时就立即加载所有组件。这种方式可以避免页面加载时加载全部组件，从而减少页面加载时间，提高应用程序的性能和加载速度。异步组件通过 `import()` 进行导入，它们不会立即被解析和加载，只有在实际需要时才会进行加载。这种延迟加载的特性使得异步组件适用于那些需要按需加载的场景，例如与路由系统配合使用时，可以实现动态加载组件，进一步提升用户体验和响应速度
+
+需要异步导入的 组件 在 `async` 中配置以对象的形式配置属性名是组件名，属性是一个函数返回一个 `import()` 
+
+`wait` 是在异步加载组件等待过程中展示的，通过一个函数返回一个组件 (!!! 组件需要在 `components` 中注册,组件需要一个唯一不变的 `UUID` ) 或通过函数返回一段 `虚拟dom` 结构
+
+```jsx
+import { createID } from "bindview@3"
+import { Wait } from "./Components/Wait"
+
+export default function Async() {
+  const [b,w] = createID(2)
+  return {
+    name: 'Async',
+    render() {
+      return (
+        <div>
+          <Link to="/Pag/B">B</Link>
+          <Switch
+            rank={2}
+            wait={() => (<Wait id={w} />)}
+            components={{ Wait }}
+            async={{
+              B: () => import("@/Components/B")
+            }}
+          >{(path) => {
+            switch (path) {
+              case "/Pag/B":
+                return <B id={b} />
+              default:
+                return <div>404</div>
+            }
+          }}</Switch>
+        </div>
+      )
+    }
+  }
+}
+```
+
+
+
 ### 3. `Link` 组件
 
 | 配置项        | 必要性 | 说明                    |
@@ -125,7 +173,7 @@ export default function App() {
 `Link` 组件是配合 `Switch` 来使用的，组件会创建出一个 `a` 标签，组件上有三个属性， `to` 属性是要去的路由， `className` a 标签类名可以不添加，`activeClass` 激活时添加类名默认添加 `active`
 
 ```jsx
-import { createID } from "../../bindview@3"
+import { createID } from "bindview@3"
 import A from "./Components/A"
 import B from "./Components/B"
 
