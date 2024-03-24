@@ -1,4 +1,5 @@
 import separateQuery from "../tools/separateQuery"
+import urlSearchParse from "../tools/urlSearchParse"
 
 const isObj = (to) => Object.prototype.toString.call(to) === '[object Object]'
 
@@ -61,6 +62,10 @@ export default function initSwitch(Bus, Router) {
               vm.data.path = newPath
             }
           })
+
+
+          Bus.emit(window.location.pathname, urlSearchParse(window.location.search), vm._key)
+
         },
         beforeDestroy() {
           Bus.off(this._key)

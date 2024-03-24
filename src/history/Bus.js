@@ -12,12 +12,19 @@ class Bus {
     this.list.set(key, func)
   }
 
-  emit(newURL, Query) {
+  emit(newURL, Query, key) {
     let tempPath
     tempPath = this.Router.newURL
     this.Router.oldURL = tempPath
     this.Router.newURL = newURL
     this.Router.query = Query
+
+    // 自触发
+    if (key) {
+      this.list.get(key)(newURL)
+      return
+    }
+
     for (let i of this.list) {
       i[1](newURL)
     }

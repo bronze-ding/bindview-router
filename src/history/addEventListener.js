@@ -8,8 +8,4 @@ export default function addEventListener(Bus) {
   window.addEventListener("popstate", (event) => {
     Bus.to(window.location.pathname, urlSearchParse(window.location.search))
   });
-
-  window.addEventListener('load', () => {
-    Bus.to(window.location.pathname, urlSearchParse(window.location.search))
-  })
 }
