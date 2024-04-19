@@ -5,8 +5,4 @@ export default function addEventListener(Bus) {
   window.addEventListener("hashchange", () => {
     Bus.emit(separateQuery(location.hash), urlSearchParse(location.hash))
   })
-
-  window.addEventListener('load', () => {
-    Bus.emit(separateQuery(location.hash), urlSearchParse(location.hash))
-  })
 }

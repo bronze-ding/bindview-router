@@ -59,7 +59,9 @@ export default function initSwitch(Bus, Router) {
                 }
               })
             } else {
-              vm.data.path = newPath
+              if (vm.data.path !== newPath) {
+                vm.data.path = newPath
+              }
             }
           })
 
