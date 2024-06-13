@@ -5,6 +5,11 @@ import addEventListener from "./addEventListener"
 import initLink from "./initLink"
 import initSwitch from "./initSwitch"
 
+/**
+ * history 路由模式
+ * @param {*} vm 
+ * @returns 
+ */
 export default function history(vm) {
   if (vm.constructor.Router) return
   const newRouter = new Router()

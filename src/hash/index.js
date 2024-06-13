@@ -5,6 +5,11 @@ import addEventListener from "../hash/addEventListener"
 import initSwitch from "../hash/initSwitch"
 import initLink from "../hash/initLink"
 
+/**
+ * hash 路由模式
+ * @param {*} vm 
+ * @returns 
+ */
 export default function hash(vm) {
   if (vm.constructor.Router) return
 
