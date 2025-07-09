@@ -33,7 +33,7 @@ export default function initLink(Bus) {
           const length = isObj(to) ? separateQuery(to.to).length : to.length
           let newPath = this.data.path.substring(0, length + 1);
           let toPath = isObj(to) ? separateQuery(to.to) : to
-          if (newPath === toPath) {
+          if (newPath === toPath.split("?")[0]) {
             let active = activeName ? activeName : "active"
             return `${active} ${className ? className : ""}`
           } else {
