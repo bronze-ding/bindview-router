@@ -15,5 +15,5 @@
 bindview-router,是适用于 `Bindview@3` 的路由组件库,提供了 `hash` 和 `history` 路由两种路由模式
 
 ## 文档
-<a href="./Manual.md">使用文档</a>
+<a href="http://rongwu.xyz/bindview-router/">使用文档</a>
 
