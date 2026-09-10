@@ -15,7 +15,6 @@ export default function initLink(Bus) {
           href: isObj(to) ? separateQuery(to.to) + objtoquery(to.query) : to,
           onClick: (_, e) => {
             e.preventDefault()
-            history.pushState({}, "", isObj(to) ? separateQuery(to.to) + objtoquery(to.query) : to)
             if (isObj(to)) {
               Bus.to(separateQuery(to.to), to.query)
             } else {

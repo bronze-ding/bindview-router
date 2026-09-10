@@ -1,5 +1,6 @@
 import separateQuery from "../tools/separateQuery"
 import objtoquery from "../tools/objtoquery"
+import urlSearchParse from "../tools/urlSearchParse"
 
 const isObj = (to) => Object.prototype.toString.call(to) === '[object Object]'
 
@@ -12,6 +13,14 @@ export default function initLink(Bus) {
         const { data: _, methods: f } = this
         return (h('a', {
           href: isObj(to) ? "#" + separateQuery(to.to) + objtoquery(to.query) : "#" + to,
+          onClick: (_, e) => {
+            e.preventDefault()
+            if (isObj(to)) {
+              Bus.to(separateQuery(to.to), to.query)
+            } else {
+              Bus.to(separateQuery(to), urlSearchParse(to))
+            }
+          },
           class: f.class()
         }, [slot()]))
       },

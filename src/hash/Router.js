@@ -1,3 +1,5 @@
+const isObj = (to) => Object.prototype.toString.call(to) === '[object Object]'
+
 class Router {
   oldURL = ""
   newURL = ""
@@ -12,13 +14,20 @@ class Router {
     });
   }
 
-  $to(paht, query = {}) { this.__to__(paht, query) }
+  $to(path, query = {}) {
+    // 兼容对象形态:$to({ to: '/B', query: { title: 'x' } })
+    if (isObj(path)) {
+      query = path.query || query
+      path = path.to
+    }
+    this.__to__(path, query)
+  }
 
-  $go(Number) { window.history.go(Number) }
+  $go(n) { window.history.go(n) }
 
-  $back() { history.back() }
+  $back() { window.history.back() }
 
-  $forward() { history.forward() }
+  $forward() { window.history.forward() }
 }
 
 export default Router

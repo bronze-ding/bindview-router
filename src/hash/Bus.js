@@ -13,19 +13,17 @@ class Bus {
   }
 
   emit(newURL, Query) {
-    let tempPath
-    tempPath = this.Router.newURL
-    this.Router.oldURL = tempPath
+    this.Router.oldURL = this.Router.newURL
     this.Router.newURL = newURL
     this.Router.query = Query
-    for (let i of this.list) {
-      i[1](newURL)
+    for (const [, listener] of this.list) {
+      listener(newURL)
     }
   }
 
   to(path, query = {}) {
-    // 跳转
-    window.location.href = "#" + path + (query ? objtoquery(query) : '');
+    // 跳转(与 history 模式一致:pushState 同步改 URL 且不触发 hashchange,避免双重派发)
+    history.pushState({}, "", "#" + path + (query ? objtoquery(query) : ''));
     this.emit(path, query)
   }
 

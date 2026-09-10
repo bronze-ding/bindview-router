@@ -17,20 +17,17 @@ export default function initSwitch(Bus, Router) {
       }),
       methods: {
         render(slot) {
-          let state = false
           if (slot['elementName'] in this._Components) {
             return slot
           }
           if (slot['elementName'] in async) {
             async[slot['elementName']]().then(module => {
               this.$appendComponent(slot['elementName'], module.default)
-              state = true
               this.$mupdate()
             })
-          } else {
-            state = true
+            return typeof wait === 'function' ? wait() : ""
           }
-          return state ? slot : typeof wait === 'function' ? wait() : ""
+          return slot
         }
       },
       life: {

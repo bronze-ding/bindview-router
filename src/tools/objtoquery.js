@@ -1,14 +1,15 @@
 /**
- * 将对象装换为querystring
- * @param {*} queryParameters 
- * @returns 
+ * 将对象转换为 querystring(以 "?" 开头)
+ * @param {*} queryParameters
+ * @returns
  */
 export default function objtoquery(queryParameters) {
-  return queryParameters
-    ? Object.entries(queryParameters).reduce((queryString, [key, val], index) => {
-      const symbol = queryString.length === 0 ? '?' : '&';
-      queryString += typeof val === 'string' ? `${symbol}${key}=${val}` : typeof val === 'number' ? `${symbol}${key}=${val}` : '';
-      return queryString;
-    }, '')
-    : '';
+  if (!queryParameters || typeof queryParameters !== 'object') return ''
+  const pairs = []
+  for (const [key, val] of Object.entries(queryParameters)) {
+    if (val == null) continue
+    if (typeof val !== 'string' && typeof val !== 'number' && typeof val !== 'boolean') continue
+    pairs.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
+  }
+  return pairs.length ? '?' + pairs.join('&') : ''
 };

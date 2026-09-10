@@ -4,16 +4,16 @@
  * @returns Object
  */
 export default function urlSearchParse(url) {
-  let obj = {};
-  if (url.indexOf("?") === -1) return obj
-  //提取？后面的值
-  let urlArr = url.split('?')[1].split('&');//['q=12345','a=b']
-  if (urlArr.length) {
-    urlArr.forEach((item) => {
-      let key = item.split('=')[0];
-      let value = item.split('=')[1];
-      obj[key] = value;
+  const obj = {}
+  if (typeof url !== 'string') return obj
+  const queryIndex = url.indexOf("?")
+  if (queryIndex === -1) return obj
+  try {
+    new URLSearchParams(url.slice(queryIndex + 1)).forEach((value, key) => {
+      obj[key] = value
     })
+  } catch (e) {
+    // 非法 query 忽略
   }
-  return obj;
+  return obj
 }

@@ -77,7 +77,7 @@ class RouterTable {
    */
   deletePath(path) {
     if (this.RouterTable.has(path)) {
-      map1.delete(path)
+      this.RouterTable.delete(path)
     } else {
       console.warn('[CreateRouterTable] 路由表中没有 ' + path)
     }
