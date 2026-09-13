@@ -5,6 +5,8 @@ import addEventListener from "./addEventListener"
 import initLink from "./initLink"
 import initSwitch from "./initSwitch"
 
+import { registerRouterPlugin } from "../tools/devtools"
+
 import config from "../../package.json"
 
 /**
@@ -26,6 +28,9 @@ export default function history(vm) {
   vm.components({ Link, Switch })
 
   addEventListener(newBus)
+
+  // 注册路由插件信息到 devtools(未安装调试插件时为空操作)
+  registerRouterPlugin({ mode: "history", version: config.version, router: newRouter, bus: newBus })
 
   console.log(`%c bindview-router %c v${config.version ? config.version : '❓🤔'} `,
     'background: #35495e; padding: 1px; border-radius: 3px 0 0 3px; color: #fff;',

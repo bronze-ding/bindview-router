@@ -1,4 +1,5 @@
 import { isVnode } from "./isVnode"
+import { registerRouteTable } from "./devtools"
 
 /**
  * 路由映射表构造器
@@ -8,6 +9,8 @@ class RouterTable {
 
   constructor(RouterTable) {
     this._addRouterTable(RouterTable)
+    // 注册到 devtools(未安装调试插件时为空操作)
+    registerRouteTable(this)
   }
 
 
@@ -53,6 +56,7 @@ class RouterTable {
       console.error('[CreateRouterTable] 参数应该为对象或数组')
       return
     }
+    registerRouteTable(this)
   }
 
   /**
@@ -81,6 +85,7 @@ class RouterTable {
     } else {
       console.warn('[CreateRouterTable] 路由表中没有 ' + path)
     }
+    registerRouteTable(this)
   }
 }
 
